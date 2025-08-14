@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 ml_env/
-
+.artifacts
 # C extensions
 *.so
 
