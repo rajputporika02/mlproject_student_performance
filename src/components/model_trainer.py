@@ -38,17 +38,36 @@ class ModelTrainer:
                 test_array[:, -1]
             )
             models = {
-                "Random Forest": RandomForestRegressor(),
-                "Decision Tree": DecisionTreeRegressor(),
-                "Gradient Boosting": GradientBoostingRegressor(),
+                "RandomForest": RandomForestRegressor(),
+                "DecisionTree": DecisionTreeRegressor(),
+                "GradientBoosting": GradientBoostingRegressor(),
                 "Linear Regression": LinearRegression(),
-                "K-Neighbors Classifier": KNeighborsRegressor(),
-                "XGBClassifier": XGBRegressor(),
-                "CatBoosting Classifier": CatBoostRegressor(verbose=False),
-                "AdaBoost Classifier": AdaBoostRegressor(),
+                "K-Neighbors Regression": KNeighborsRegressor(),
+                "XGBRegressor": XGBRegressor(),
+                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
+                "AdaBoost Regressor": AdaBoostRegressor(),
             }
             
-            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models)
+            
+            # Example parameter grid for multiple algorithms
+            param = {
+                    'RandomForest': {'n_estimators': [8, 16, 32,64,128,256]},
+                    'DecisionTree': {'criterion': ["poisson", "squared_error", "absolute_error", "friedman_mse"]},
+                    'GradientBoosting': {'learning_rate': [0.01, 0.1,.05,.001], 'n_estimators': [8, 16,32,64,128,256]},
+                    'Linear Regression': {},
+                    'K-Neighbors Regression': {'n_neighbors': [3, 5, 7]},
+                    "XGBRegressor":{'learning_rate':[.1,.01,.05,.001],'n_estimators':[8,16,32,64,128,256] },
+                    "CatBoosting Regressor":{'depth':[6,8,10],'learning_rate':[0.01, 0.05, 0.1],'iterations':[30, 50, 100] },
+                    "AdaBoost Regressor":{'learning_rate':[.1,.01,0.5,.001],'n_estimators':[8,16,32,64,128,256]}
+
+            }
+            
+            
+            
+            
+            
+            
+            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,param=param)
             
             ##To get best model score from dict 
             best_model_score=max(sorted(model_report.values()))
